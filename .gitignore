@@ -1,0 +1,15 @@
+# node
+node_modules
+.env
+.env.local
+
+# hardhat
+artifacts
+cache
+
+# next
+.next
+out
+
+# misc
+.DS_Store
