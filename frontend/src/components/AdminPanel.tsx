@@ -40,6 +40,10 @@ export default function AdminPanel() {
   return (
     <div className="p-6 border rounded w-96 flex flex-col gap-4">
       <h2 className="text-xl font-semibold">Admin Panel</h2>
+      <p className="text-xs text-gray-500">
+        Admin actions are restricted to Super Admin wallets. In production, this
+        is enforced via soulbound NFTs.
+      </p>
 
       <input
         value={victim}

@@ -37,6 +37,8 @@ export default function Donate() {
     });
   };
 
+  
+
   return (
     <div className="p-6 border rounded w-80 flex flex-col gap-4">
       <h2 className="text-xl font-semibold">Donate USDC</h2>
