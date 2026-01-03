@@ -7,14 +7,24 @@ import {
   useConnect,
   useDisconnect,
 } from "wagmi";
+import { useEffect, useState } from "react";
 
 export default function ConnectWallet() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const { address, isConnected } = useAccount();
   const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
 
   const chainId = useChainId();
   const isSepolia = chainId === sepolia.id;
+
+  // 🚫 Prevent SSR/client mismatch
+  if (!mounted) return null;
 
   if (isConnected) {
     return (
