@@ -1,90 +1,128 @@
-export default function AdminPanel() {
+"use client";
+
+export default function AdminPage() {
   return (
-    <main className="bg-white text-[#0F172A] min-h-screen">
-      <div className="max-w-5xl mx-auto px-6 py-20 space-y-12">
+    <main className="bg-(--bg) min-h-screen">
 
-        <header className="space-y-3">
-          <h1 className="text-3xl font-semibold">Admin Command Panel</h1>
-          <p className="text-gray-600 max-w-2xl">
-            This panel is used to authorize relief operations,
-            manage volunteers, and deploy funds.
+      {/* ================= HEADER ================= */}
+      <section className="border-b border-(--border) bg-(--card)">
+        <div className="max-w-6xl mx-auto px-6 py-8">
+          <h1 className="text-2xl font-semibold">
+            Authority Control Panel
+          </h1>
+          <p className="text-(--muted) mt-1">
+            Administrative access for managing beneficiaries, policies, and system enforcement
           </p>
-        </header>
+        </div>
+      </section>
 
-        {/* SYSTEM STATUS */}
-        <section className="p-6 border rounded bg-[#F8FAFC] space-y-2">
-          <h2 className="font-medium">System Status</h2>
-          <ul className="text-sm text-gray-600 space-y-1">
-            <li>• Smart contracts deployed</li>
-            <li>• Policy enforcement active</li>
-            <li>• Distribution engine paused</li>
-          </ul>
-        </section>
+      {/* ================= ADMIN POWERS ================= */}
+      <section className="max-w-6xl mx-auto px-6 py-10">
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            ["Verify Beneficiaries", "Approve and onboard verified recipients"],
+            ["Enforce Spending Rules", "Restrict fund usage to humanitarian categories"],
+            ["Audit System Activity", "Monitor allowed and blocked transactions"],
+          ].map(([title, desc]) => (
+            <div
+              key={title}
+              className="bg-(--card) border border-(--border) rounded-xl p-6"
+            >
+              <h3 className="font-semibold mb-2">{title}</h3>
+              <p className="text-sm text-(--muted)">{desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-        {/* ADMIN ACTIONS */}
-        <section className="space-y-4">
-          <h2 className="text-xl font-medium">Administrative Actions</h2>
+      {/* ================= VERIFY BENEFICIARY ================= */}
+      <section className="max-w-6xl mx-auto px-6 py-6">
+        <div className="bg-(--card) border border-(--border) rounded-xl p-6">
+          <h2 className="font-semibold mb-4">
+            Verify Beneficiary
+          </h2>
+
+          <p className="text-sm text-(--muted) mb-4">
+            Only verified beneficiaries can receive and spend relief funds.
+            Verification issues a non-transferable on-chain identity.
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            <input
+              className="w-full border border-(--border) rounded px-3 py-2"
+              placeholder="Beneficiary Wallet Address"
+            />
+            <button className="bg-(--primary) text-white rounded px-4 py-2">
+              Verify & Issue Identity
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= ASSIGN SPENDING POLICIES ================= */}
+      <section className="max-w-6xl mx-auto px-6 py-10">
+        <div className="bg-(--card) border border-(--border) rounded-xl p-6">
+          <h2 className="font-semibold mb-4">
+            Assign Spending Policies
+          </h2>
+
+          <p className="text-sm text-(--muted) mb-6">
+            Define which categories a beneficiary is allowed to spend funds on.
+            Any violation is automatically blocked by the protocol.
+          </p>
 
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="p-6 border rounded bg-white space-y-3">
-              <h3 className="font-medium">Authorize Disaster Zone</h3>
-              <p className="text-sm text-gray-600">
-                Opens a new relief operation for a verified emergency region.
-              </p>
-              <button
-                disabled
-                className="px-4 py-2 rounded bg-gray-300 text-gray-600 cursor-not-allowed"
-              >
-                Authorize Zone (Coming Soon)
-              </button>
-            </div>
+            <input
+              className="w-full border border-(--border) rounded px-3 py-2"
+              placeholder="Beneficiary Wallet Address"
+            />
 
-            <div className="p-6 border rounded bg-white space-y-3">
-              <h3 className="font-medium">Deploy Relief Funds</h3>
-              <p className="text-sm text-gray-600">
-                Releases funds to verified beneficiaries under enforced policies.
-              </p>
-              <button
-                disabled
-                className="px-4 py-2 rounded bg-gray-300 text-gray-600 cursor-not-allowed"
-              >
-                Deploy Funds (Coming Soon)
-              </button>
-            </div>
+            <div className="grid grid-cols-2 gap-3 text-sm">
+              {["Food", "Water", "Medicine", "Shelter"].map((item) => (
+                <label
+                  key={item}
+                  className="flex items-center gap-2 border border-(--border) rounded px-3 py-2"
+                >
+                  <input type="checkbox" />
+                  {item}
+                </label>
+              ))}
 
-            <div className="p-6 border rounded bg-white space-y-3">
-              <h3 className="font-medium">Assign Volunteers</h3>
-              <p className="text-sm text-gray-600">
-                Grants volunteer authorization NFTs.
-              </p>
-              <button
-                disabled
-                className="px-4 py-2 rounded bg-gray-300 text-gray-600 cursor-not-allowed"
-              >
-                Assign Volunteer (Coming Soon)
-              </button>
-            </div>
-
-            <div className="p-6 border rounded bg-white space-y-3">
-              <h3 className="font-medium">Generate Audit Report</h3>
-              <p className="text-sm text-gray-600">
-                Export a complete on-chain audit of the relief operation.
-              </p>
-              <button
-                disabled
-                className="px-4 py-2 rounded bg-gray-300 text-gray-600 cursor-not-allowed"
-              >
-                Generate Report (Coming Soon)
-              </button>
+              {["Alcohol", "Tobacco"].map((item) => (
+                <div
+                  key={item}
+                  className="flex items-center gap-2 border border-(--border) rounded px-3 py-2 text-(--muted)"
+                >
+                  🔒 {item}
+                </div>
+              ))}
             </div>
           </div>
-        </section>
 
-        <footer className="text-sm text-gray-500 border-t pt-6">
-          Administrative actions require multi-signature authorization in production.
-        </footer>
+          <div className="mt-6">
+            <button className="bg-(--primary) text-white rounded px-6 py-2">
+              Apply Spending Rules
+            </button>
+          </div>
+        </div>
+      </section>
 
-      </div>
+      {/* ================= SYSTEM SAFETY ================= */}
+      <section className="max-w-6xl mx-auto px-6 pb-20">
+        <div className="bg-(--bg) border border-(--border) rounded-xl p-6">
+          <h2 className="font-semibold mb-2">
+            Enforcement & Safety Guarantees
+          </h2>
+
+          <ul className="text-sm text-(--muted) space-y-2">
+            <li>• All rules are enforced at the smart contract level</li>
+            <li>• Beneficiary identities are non-transferable</li>
+            <li>• Unauthorized transactions are automatically blocked</li>
+            <li>• All actions are publicly auditable on-chain</li>
+          </ul>
+        </div>
+      </section>
+
     </main>
   );
 }
