@@ -1,6 +1,5 @@
 "use client";
 
-
 import Navbar from "@/components/Navbar";
 
 export default function Home() {
@@ -9,12 +8,8 @@ export default function Home() {
       <Navbar />
 
       <main className="bg-gray-50 text-[#0F172A]">
-
         {/* HERO */}
-        <section
-          id="hero"
-          className="relative overflow-hidden bg-white"
-        >
+        <section id="hero" className="relative overflow-hidden bg-white">
           {/* 🔮 Background visual goes here later */}
           <div className="absolute inset-0 opacity-10 pointer-events-none">
             {/* IMAGE PLACEHOLDER */}
@@ -27,8 +22,8 @@ export default function Home() {
               </h1>
 
               <p className="text-lg text-gray-600">
-                A precision logistics system for emergency aid —
-                programmable, auditable, and enforced on-chain.
+                A precision logistics system for emergency aid — programmable,
+                auditable, and enforced on-chain.
               </p>
 
               <div className="flex gap-4">
@@ -74,10 +69,7 @@ export default function Home() {
         </section>
 
         {/* HOW IT WORKS */}
-        <section
-          id="how-it-works"
-          className="max-w-6xl mx-auto px-6 py-20"
-        >
+        <section id="how-it-works" className="max-w-6xl mx-auto px-6 py-20">
           <h2 className="text-3xl font-semibold text-center mb-12">
             How It Works
           </h2>
@@ -98,23 +90,17 @@ export default function Home() {
         </section>
 
         {/* WHY THIS MATTERS */}
-        <section
-          id="why-this-matters"
-          className="relative bg-white py-24"
-        >
+        <section id="why-this-matters" className="relative bg-white py-24">
           {/* 🔮 SUBTLE MAP / ILLUSTRATION BACKGROUND */}
           <div className="absolute inset-0 opacity-5 pointer-events-none">
             {/* IMAGE PLACEHOLDER */}
           </div>
 
           <div className="relative max-w-4xl mx-auto px-6 text-center space-y-6">
-            <h2 className="text-3xl font-semibold">
-              Why This Matters
-            </h2>
+            <h2 className="text-3xl font-semibold">Why This Matters</h2>
             <p className="text-gray-600">
-              Traditional aid systems lose funds to delays, misuse,
-              and lack of accountability. RSYS replaces trust with
-              verifiable execution.
+              Traditional aid systems lose funds to delays, misuse, and lack of
+              accountability. RSYS replaces trust with verifiable execution.
             </p>
           </div>
         </section>
@@ -130,10 +116,7 @@ export default function Home() {
         </section>
 
         {/* TRANSPARENCY PREVIEW */}
-        <section
-          id="transparency"
-          className="max-w-6xl mx-auto px-6 py-20"
-        >
+        <section id="transparency" className="max-w-6xl mx-auto px-6 py-20">
           <h2 className="text-3xl font-semibold mb-8">
             Transparency by Design
           </h2>
@@ -149,22 +132,19 @@ export default function Home() {
         </section>
 
         {/* POLICY PREVIEW */}
-        <section
-          id="policies"
-          className="bg-white py-20"
-        >
+        <section id="policies" className="bg-white py-20">
           <div className="max-w-4xl mx-auto px-6 text-center space-y-6">
             <h2 className="text-3xl font-semibold">
               Programmable Spending Controls
             </h2>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {["Food", "Water", "Medicine"].map(item => (
+              {["Food", "Water", "Medicine"].map((item) => (
                 <div key={item} className="p-4 border rounded">
                   ✅ {item}
                 </div>
               ))}
-              {["Alcohol", "Tobacco"].map(item => (
+              {["Alcohol", "Tobacco"].map((item) => (
                 <div key={item} className="p-4 border rounded text-gray-400">
                   🔒 {item}
                 </div>
@@ -177,7 +157,6 @@ export default function Home() {
         <footer className="py-12 text-center text-sm text-gray-500">
           Built as emergency infrastructure — not a charity bucket.
         </footer>
-
       </main>
     </>
   );
