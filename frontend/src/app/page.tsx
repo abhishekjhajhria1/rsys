@@ -1,149 +1,183 @@
-import ConnectWallet from "@/components/ConnectWallet";
-import Donate from "@/components/Donate";
-import RoleBadge from "@/components/RoleBadge";
-import VolunteerPanel from "@/components/VolunteerPanel";
-import RoleDropdown from "@/components/RoleDropdown";
+"use client";
+
+
 import Navbar from "@/components/Navbar";
 
 export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-gray-50">
-        <div className="max-w-5xl mx-auto flex flex-col gap-24 px-6 py-16">
-          {/* DEMO MODE BANNER */}
-          <div className="w-full max-w-3xl bg-yellow-100 text-yellow-800 px-4 py-3 rounded text-sm text-center">
-            Demo Mode: Admin & Volunteer roles are simulated for MVP. Victim
-            verification via NFT is fully on-chain.
+
+      <main className="bg-gray-50 text-[#0F172A]">
+
+        {/* HERO */}
+        <section
+          id="hero"
+          className="relative overflow-hidden bg-white"
+        >
+          {/* 🔮 Background visual goes here later */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
+            {/* IMAGE PLACEHOLDER */}
           </div>
 
-          {/* HERO SECTION */}
-          <section className="text-center flex flex-col gap-6">
-            <h1 className="text-5xl font-bold text-gray-900 leading-tight">
-              Emergency Relief
-              <span className="block text-green-600">Stablecoin System</span>
-            </h1>
+          <div className="relative max-w-6xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <h1 className="text-4xl md:text-5xl font-semibold">
+                Zero-Leakage Relief Deployment
+              </h1>
 
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              A transparent, on-chain infrastructure ensuring disaster donations
-              reach verified victims directly — fast, auditable, and
-              misuse-resistant.
-            </p>
+              <p className="text-lg text-gray-600">
+                A precision logistics system for emergency aid —
+                programmable, auditable, and enforced on-chain.
+              </p>
 
-            <div className="flex flex-col items-center gap-4 mt-6">
-              <Donate />
+              <div className="flex gap-4">
+                <button className="px-6 py-3 rounded bg-[#F7A600] text-white font-medium">
+                  Authorize Donation
+                </button>
+
+                <button
+                  onClick={() =>
+                    document
+                      .getElementById("how-it-works")
+                      ?.scrollIntoView({ behavior: "smooth" })
+                  }
+                  className="px-6 py-3 rounded border border-gray-300"
+                >
+                  How It Works ↓
+                </button>
+              </div>
             </div>
-          </section>
 
-          {/* HOW IT WORKS */}
-          <section className="flex flex-col gap-10">
-            <h2 className="text-3xl font-semibold text-center text-gray-900">
-              How Your Donation Flows
+            <div className="hidden md:block">
+              {/* 🔮 HERO VISUAL PLACEHOLDER */}
+              <div className="h-80 rounded-xl bg-gray-100 border" />
+            </div>
+          </div>
+        </section>
+
+        {/* STATS BAR */}
+        <section className="bg-[#F8FAFC] border-y">
+          <div className="max-w-6xl mx-auto px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            {[
+              ["$1.2M", "Total Secured"],
+              ["48", "Active Wallets"],
+              ["12", "Blocked Tx"],
+              ["0.00%", "System Leakage"],
+            ].map(([value, label]) => (
+              <div key={label}>
+                <div className="font-mono text-xl">{value}</div>
+                <div className="text-sm text-gray-500">{label}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* HOW IT WORKS */}
+        <section
+          id="how-it-works"
+          className="max-w-6xl mx-auto px-6 py-20"
+        >
+          <h2 className="text-3xl font-semibold text-center mb-12">
+            How It Works
+          </h2>
+
+          <div className="grid md:grid-cols-4 gap-8 text-center">
+            {[
+              "Donor authorizes funds",
+              "Funds locked on-chain",
+              "Victims verified via NFT",
+              "Spending enforced by policy",
+            ].map((text, i) => (
+              <div key={i} className="space-y-2">
+                <div className="text-sm font-medium">Step {i + 1}</div>
+                <p className="text-gray-600">{text}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* WHY THIS MATTERS */}
+        <section
+          id="why-this-matters"
+          className="relative bg-white py-24"
+        >
+          {/* 🔮 SUBTLE MAP / ILLUSTRATION BACKGROUND */}
+          <div className="absolute inset-0 opacity-5 pointer-events-none">
+            {/* IMAGE PLACEHOLDER */}
+          </div>
+
+          <div className="relative max-w-4xl mx-auto px-6 text-center space-y-6">
+            <h2 className="text-3xl font-semibold">
+              Why This Matters
+            </h2>
+            <p className="text-gray-600">
+              Traditional aid systems lose funds to delays, misuse,
+              and lack of accountability. RSYS replaces trust with
+              verifiable execution.
+            </p>
+          </div>
+        </section>
+
+        {/* DONATE AGAIN */}
+        <section className="bg-[#F8FAFC] py-20 text-center">
+          <h3 className="text-2xl font-semibold mb-4">
+            Your donation is enforced by code, not trust
+          </h3>
+          <button className="px-8 py-3 rounded bg-[#F7A600] text-white font-medium">
+            Deploy Relief Funds
+          </button>
+        </section>
+
+        {/* TRANSPARENCY PREVIEW */}
+        <section
+          id="transparency"
+          className="max-w-6xl mx-auto px-6 py-20"
+        >
+          <h2 className="text-3xl font-semibold mb-8">
+            Transparency by Design
+          </h2>
+
+          <div className="space-y-4 font-mono text-sm">
+            <div className="p-4 bg-white border rounded">
+              10:42:08 — Wallet 0x9c… attempted ALCOHOL ($12.00) — 🚫 Blocked
+            </div>
+            <div className="p-4 bg-white border rounded">
+              10:42:05 — Wallet 0x8a… purchased FOOD ($2.50) — ✔ Allowed
+            </div>
+          </div>
+        </section>
+
+        {/* POLICY PREVIEW */}
+        <section
+          id="policies"
+          className="bg-white py-20"
+        >
+          <div className="max-w-4xl mx-auto px-6 text-center space-y-6">
+            <h2 className="text-3xl font-semibold">
+              Programmable Spending Controls
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
-              {[
-                { icon: "💳", text: "Donations in stablecoins" },
-                { icon: "🏦", text: "Funds locked on-chain" },
-                { icon: "🪪", text: "Victims verified via NFTs" },
-                { icon: "🎯", text: "Direct distribution" },
-              ].map((step, i) => (
-                <div key={i} className="flex flex-col gap-3">
-                  <div className="text-4xl">{step.icon}</div>
-                  <p className="text-gray-700 font-medium">{step.text}</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {["Food", "Water", "Medicine"].map(item => (
+                <div key={item} className="p-4 border rounded">
+                  ✅ {item}
+                </div>
+              ))}
+              {["Alcohol", "Tobacco"].map(item => (
+                <div key={item} className="p-4 border rounded text-gray-400">
+                  🔒 {item}
                 </div>
               ))}
             </div>
-          </section>
+          </div>
+        </section>
 
-          {/* DISASTER CONTEXT */}
-          <section className="bg-white rounded-xl p-10 shadow-sm">
-            <h2 className="text-3xl font-semibold text-gray-900 text-center mb-6">
-              Why This Matters
-            </h2>
+        {/* FOOTER */}
+        <footer className="py-12 text-center text-sm text-gray-500">
+          Built as emergency infrastructure — not a charity bucket.
+        </footer>
 
-            <p className="text-gray-700 text-lg text-center max-w-3xl mx-auto leading-relaxed">
-              In emergencies, aid is often delayed, opaque, or misused. This
-              system replaces trust in intermediaries with cryptographic
-              verification, enabling faster relief and full transparency.
-            </p>
-          </section>
-
-          {/* SECOND DONATE CTA */}
-          <section className="text-center flex flex-col gap-4">
-            <p className="text-lg font-medium text-gray-800">
-              Ready to contribute? Your donation goes directly to verified
-              victims.
-            </p>
-            <Donate />
-          </section>
-
-          {/* TRANSPARENCY (UNDER CONSTRUCTION) */}
-          <section className="bg-white rounded-xl p-10 shadow-sm text-center flex flex-col gap-6">
-            <h2 className="text-2xl font-semibold text-gray-900">
-              Transparency Dashboard
-            </h2>
-
-            <p className="text-gray-500">
-              Live tracking of funds is under development.
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="p-6 bg-gray-50 rounded">Total Collected</div>
-              <div className="p-6 bg-gray-50 rounded">Total Distributed</div>
-              <div className="p-6 bg-gray-50 rounded">Victims Helped</div>
-            </div>
-          </section>
-
-          {/* WHAT MAKES THIS TRUSTWORTHY */}
-
-          <section className="max-w-3xl mx-auto text-center flex flex-col gap-6">
-            <h2 className="text-3xl font-semibold text-gray-900">
-              Built for Trust in Emergencies
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div>
-                <h3 className="font-medium text-gray-800">On-Chain Funds</h3>
-                <p className="text-sm text-gray-600">
-                  Donations are publicly auditable and cannot be diverted.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-medium text-gray-800">
-                  NFT-Verified Victims
-                </h3>
-                <p className="text-sm text-gray-600">
-                  Only wallets holding verification NFTs can receive funds.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-medium text-gray-800">Role-Based Access</h3>
-                <p className="text-sm text-gray-600">
-                  Admins and volunteers operate with on-chain authorization.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          {/* ROAD MAP */}
-          <section className="bg-white rounded-xl p-10 shadow-sm max-w-4xl mx-auto">
-            <h2 className="text-2xl font-semibold text-gray-900 text-center mb-6">
-              What’s Coming Next
-            </h2>
-
-            <ul className="space-y-3 text-gray-700 text-sm">
-              <li>
-                • Live transparency dashboard with real-time fund tracking
-              </li>
-              <li>• Soulbound NFTs for volunteers and administrators</li>
-              <li>• Victim onboarding via mobile-first interface</li>
-              <li>• Multi-disaster support & regional segregation</li>
-            </ul>
-          </section>
-        </div>
       </main>
     </>
   );
