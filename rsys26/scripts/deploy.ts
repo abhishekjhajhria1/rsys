@@ -1,23 +1,29 @@
-import { network } from "hardhat";
+import  ethers  from "hardhat";
 
 async function main() {
-  const { viem, networkName } = await network.connect();
-  console.log("Deploying to:", networkName);
+  console.log("Starting deployment...");
 
-  // Deploy ReliefNFT
-  const reliefNFT = await viem.deployContract("ReliefNFT");
-  console.log("ReliefNFT:", reliefNFT.address);
+  // 1. Deploy CampaignVoting
+  const CampaignVoting = await ethers.getContractFactory("CampaignVoting");
+  const voting = await CampaignVoting.deploy();
+  await voting.waitForDeployment();
 
-  // Deploy MockUSDC
-  const mockUSDC = await viem.deployContract("MockUSDC");
-  console.log("MockUSDC:", mockUSDC.address);
+  const votingAddress = await voting.getAddress();
+  console.log("CampaignVoting deployed at:", votingAddress);
 
-  // Deploy ReliefFund
-  const reliefFund = await viem.deployContract("ReliefFund", [
-    mockUSDC.address,
-    reliefNFT.address,
-  ]);
-  console.log("ReliefFund:", reliefFund.address);
+  // 2. Deploy CampaignFactory (pass voting address)
+  const CampaignFactory = await ethers.getContractFactory("CampaignFactory");
+  const factory = await CampaignFactory.deploy(votingAddress);
+  await factory.waitForDeployment();
+
+  const factoryAddress = await factory.getAddress();
+  console.log("CampaignFactory deployed at:", factoryAddress);
+
+  console.log("✅ Deployment successful");
 }
 
-main().catch(console.error);
+main().catch((error) => {
+  console.error("❌ Deployment failed");
+  console.error(error);
+  process.exit(1);
+});

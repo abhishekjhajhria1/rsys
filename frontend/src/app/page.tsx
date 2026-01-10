@@ -1,17 +1,21 @@
-import ConnectWallet from "@/components/ConnectWallet";
+import CampaignCard from "@/components/CampaignCard";
+import { mockCampaigns } from "@/lib/mockCampaigns";
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center gap-6 bg-black text-white">
-      <h1 className="text-3xl font-bold">
-        ReliefChain — On-Chain Disaster Relief
-      </h1>
+    <main className="p-8">
+      <h1 className="text-3xl font-bold mb-6">Disaster Relief Campaigns</h1>
 
-      <p className="text-zinc-400">
-        Transparent campaigns. Controlled spending. Real impact.
-      </p>
-
-      <ConnectWallet />
+      <div className="grid gap-4">
+        {mockCampaigns.map((c) => (
+          <CampaignCard
+            key={c.address}
+            address={c.address}
+            title={c.title}
+            status={c.status}
+          />
+        ))}
+      </div>
     </main>
   );
 }

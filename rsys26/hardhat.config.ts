@@ -1,25 +1,20 @@
-import { defineConfig } from "hardhat/config";
-import hardhatViem from "@nomicfoundation/hardhat-viem";
-import "dotenv/config";
+import { HardhatUserConfig } from "hardhat/config";
+import "@nomicfoundation/hardhat-viem";
+import * as dotenv from "dotenv";
 
-export default defineConfig({
-  plugins: [hardhatViem],
+dotenv.config();
 
-
-  solidity: {
-  compilers: [
-    {
-      version: "0.8.20",
-      settings: {},
-    },
-  ],
-},
-
+const config: HardhatUserConfig = {
+  solidity: "0.8.20",
   networks: {
     sepolia: {
       type: "http",
       url: process.env.SEPOLIA_RPC_URL!,
-      accounts: [process.env.PRIVATE_KEY!],
+      accounts: process.env.PRIVATE_KEY
+        ? [process.env.PRIVATE_KEY]
+        : [],
     },
   },
-});
+};
+
+export default config;
