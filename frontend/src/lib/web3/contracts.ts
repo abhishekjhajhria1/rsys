@@ -1,16 +1,18 @@
-export const CONTRACTS = {
-  // Core
-  Campaign: "0xE4F16A715f80668aB9C2DAC61112DC48aADf73F5",
+// All deployed contract addresses (Sepolia)
+// DO NOT MODIFY — these are live hackathon deployments
 
-  // Money layer
+export const CONTRACTS = {
+  CampaignVoting: "0xDF22BCEd1FF8a2fdA1370e0a05f7D64Cb3e977d6",
+  CampaignFactory: "0x84850634cB4D250D49E8473e2C0CAAf7bE84904b",
+  ActiveCampaign: "0xE4F16A715f80668aB9C2DAC61112DC48aADf73F5",
+
   ReliefStablecoin: "0xD3234714a169a509d2DCA324F87716F5b2ab1819",
   ReliefPool: "0xFc6b2fF799fFCa6536bE2efE332B5F88B980ed22",
   PoolTokenV2: "0x20be62013bBE116Cdae7966F1eC693389036df8D",
   CampaignTreasuryV2: "0x58F806C63dc32a19A4587BE93148f4Aa87788E5E",
 
-  // Identity NFTs
   CampaignAdminNFT: "0x232090e8F5D701d003e86Ee56Cd05EE36882dE85",
   VolunteerNFT: "0xcEc62a681dfe82B05f651Fbf54a015377C8E71e4",
   VictimNFT: "0xc7689dC69a7D509060580bc137E7E5C5628159eC",
   ServiceProviderNFT: "0x143BC1F13e721E2425393974055e43856314EBF6",
-};
+} as const;

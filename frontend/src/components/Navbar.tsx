@@ -1,40 +1,74 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { useAccount } from "wagmi";
-import { Shield, HeartHandshake, Users } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import ConnectWalletButton from "./ConnectWalletButton";
 
 export default function Navbar() {
-  const { address, isConnected } = useAccount();
+  const [open, setOpen] = useState(false);
 
   return (
-    <nav
-      style={{
-        padding: 16,
-        borderBottom: "1px solid #ddd",
-        display: "flex",
-        gap: 16,
-        alignItems: "center",
-      }}
-    >
-      <Link href="/">Home</Link>
-      <Link href="/campaign">
-        <HeartHandshake size={16} /> Campaign
-      </Link>
-      <Link href="/admin">
-        <Shield size={16} /> Admin
-      </Link>
-      <Link href="/volunteer">
-        <Users size={16} /> Volunteer
-      </Link>
-      <Link href="/provider">Provider</Link>
-      <Link href="/judge">Judge Mode</Link>
+    <nav className="sticky top-0 z-50 backdrop-blur-md bg-white/70 border-b border-white/40">
+      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        {/* Logo */}
+        <Link
+          href="/"
+          className="text-lg font-semibold tracking-tight"
+        >
+          RSYS
+        </Link>
 
-      <div style={{ marginLeft: "auto", fontSize: 12 }}>
-        {isConnected
-          ? `Connected: ${address?.slice(0, 6)}...${address?.slice(-4)}`
-          : "Not connected"}
+        {/* Right Side */}
+        <div className="flex items-center gap-6">
+          {/* Dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => setOpen((v) => !v)}
+              className="text-sm font-medium text-slate-700 hover:text-slate-900 transition"
+            >
+              Explore
+            </button>
+
+            <AnimatePresence>
+              {open && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="absolute right-0 mt-3 w-56 rounded-2xl bg-white/80 backdrop-blur-xl border border-white/40 shadow-xl overflow-hidden"
+                >
+                  <DropdownItem href="/campaigns" label="Campaigns" />
+                  <DropdownItem href="/admin" label="Admin Portal" />
+                  <DropdownItem href="/volunteer" label="Volunteer Portal" />
+                  <DropdownItem href="/provider" label="Service Provider" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Wallet */}
+          <ConnectWalletButton />
+        </div>
       </div>
     </nav>
+  );
+}
+
+function DropdownItem({
+  href,
+  label,
+}: {
+  href: string;
+  label: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="block px-5 py-3 text-sm text-slate-700 hover:bg-slate-100/60 transition"
+    >
+      {label}
+    </Link>
   );
 }

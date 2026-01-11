@@ -1,18 +1,13 @@
-"use client";
-
-import { WagmiProvider, createConfig, http } from "wagmi";
-import { sepolia } from "wagmi/chains";
-import { injected } from "wagmi/connectors";
+import "./globals.css";
+import type { Metadata } from "next";
+import Providers from "./providers";
 import Navbar from "@/components/Navbar";
-import { Toaster } from "sonner";
 
-const config = createConfig({
-  chains: [sepolia],
-  connectors: [injected()],
-  transports: {
-    [sepolia.id]: http(),
-  },
-});
+export const metadata: Metadata = {
+  title: "RSYS — Disaster Relief Stablecoin System",
+  description:
+    "A transparent, blockchain-based disaster relief system with enforced spending and real-time auditability.",
+};
 
 export default function RootLayout({
   children,
@@ -21,12 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <WagmiProvider config={config}>
+      <body className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50 text-slate-900 antialiased">
+        <Providers>
           <Navbar />
           {children}
-          <Toaster richColors position="top-right" />
-        </WagmiProvider>
+        </Providers>
       </body>
     </html>
   );

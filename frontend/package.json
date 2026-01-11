@@ -10,13 +10,10 @@
   },
   "dependencies": {
     "@wagmi/core": "^3.2.1",
-    "clsx": "^2.1.1",
     "framer-motion": "^12.25.0",
-    "lucide-react": "^0.562.0",
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "sonner": "^2.0.7",
     "viem": "^2.44.1",
     "wagmi": "^3.3.1"
   },
