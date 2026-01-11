@@ -1,7 +1,38 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+* {
+  box-sizing: border-box;
 }
 
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  background: #0b0f19;
+  color: #eaeaf0;
+}
+
+a {
+  color: #7aa2ff;
+  text-decoration: none;
+}
+
+input {
+  background: #12172a;
+  border: 1px solid #2a2f45;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+button {
+  background: linear-gradient(135deg, #7aa2ff, #5f7cff);
+  color: black;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

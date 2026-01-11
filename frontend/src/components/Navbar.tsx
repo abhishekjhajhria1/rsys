@@ -1,30 +1,40 @@
+"use client";
+
 import Link from "next/link";
-import ConnectWallet from "./ConnectWallet";
+import { useAccount } from "wagmi";
+import { Shield, HeartHandshake, Users } from "lucide-react";
 
 export default function Navbar() {
+  const { address, isConnected } = useAccount();
+
   return (
-    <nav className="w-full flex items-center justify-between px-6 py-4 border-b border-zinc-800 bg-black">
-      <div className="flex items-center gap-6">
-        <Link href="/" className="text-lg font-bold text-white">
-          ReliefChain
-        </Link>
+    <nav
+      style={{
+        padding: 16,
+        borderBottom: "1px solid #ddd",
+        display: "flex",
+        gap: 16,
+        alignItems: "center",
+      }}
+    >
+      <Link href="/">Home</Link>
+      <Link href="/campaign">
+        <HeartHandshake size={16} /> Campaign
+      </Link>
+      <Link href="/admin">
+        <Shield size={16} /> Admin
+      </Link>
+      <Link href="/volunteer">
+        <Users size={16} /> Volunteer
+      </Link>
+      <Link href="/provider">Provider</Link>
+      <Link href="/judge">Judge Mode</Link>
 
-        <Link
-          href="/create"
-          className="text-sm text-zinc-400 hover:text-white"
-        >
-          Create Campaign
-        </Link>
-
-        <Link
-          href="/provider"
-          className="text-sm text-zinc-400 hover:text-white"
-        >
-          Provider
-        </Link>
+      <div style={{ marginLeft: "auto", fontSize: 12 }}>
+        {isConnected
+          ? `Connected: ${address?.slice(0, 6)}...${address?.slice(-4)}`
+          : "Not connected"}
       </div>
-
-      <ConnectWallet />
     </nav>
   );
 }

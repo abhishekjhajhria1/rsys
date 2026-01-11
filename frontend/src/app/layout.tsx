@@ -1,12 +1,18 @@
 "use client";
 
-import { WagmiProvider } from "wagmi";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { wagmiConfig } from "@/lib/wagmi";
-import "./globals.css";
+import { WagmiProvider, createConfig, http } from "wagmi";
+import { sepolia } from "wagmi/chains";
+import { injected } from "wagmi/connectors";
 import Navbar from "@/components/Navbar";
+import { Toaster } from "sonner";
 
-const queryClient = new QueryClient();
+const config = createConfig({
+  chains: [sepolia],
+  connectors: [injected()],
+  transports: {
+    [sepolia.id]: http(),
+  },
+});
 
 export default function RootLayout({
   children,
@@ -16,14 +22,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-  <WagmiProvider config={wagmiConfig}>
-    <QueryClientProvider client={queryClient}>
-      <Navbar />
-      {children}
-    </QueryClientProvider>
-  </WagmiProvider>
-</body>
-
+        <WagmiProvider config={config}>
+          <Navbar />
+          {children}
+          <Toaster richColors position="top-right" />
+        </WagmiProvider>
+      </body>
     </html>
   );
 }

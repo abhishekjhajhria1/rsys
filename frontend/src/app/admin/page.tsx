@@ -1,12 +1,12 @@
 import WalletGate from "@/components/WalletGate";
-import RedeemBox from "@/components/RedeemBox";
+import IssueVolunteer from "@/components/IssueVolunteer";
 
-export default function ProviderPage() {
+export default function AdminPage() {
   return (
     <WalletGate>
       <div style={{ padding: 24 }}>
-        <h2>Service Provider</h2>
-        <RedeemBox />
+        <h2>Admin Panel</h2>
+        <IssueVolunteer />
       </div>
     </WalletGate>
   );
