@@ -18,12 +18,24 @@ export default function CampaignActivity() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!publicClient) return;
+
+    const client = publicClient;
+
     async function load() {
-      if (!publicClient) return;
-      
       try {
+        const latestBlock = await client.getBlockNumber();
+
+        const BLOCK_RANGE = BigInt(5_000);
+        const ZERO = BigInt(0);
+
+        const fromBlock =
+          latestBlock > BLOCK_RANGE
+            ? latestBlock - BLOCK_RANGE
+            : ZERO;
+
         // Donations = ERC20 transfers INTO ReliefPool
-        const donationLogs = await publicClient.getLogs({
+        const donationLogs = await client.getLogs({
           address: CONTRACTS.ReliefStablecoin,
           event: {
             type: "event",
@@ -34,7 +46,8 @@ export default function CampaignActivity() {
               { indexed: false, name: "value", type: "uint256" },
             ],
           },
-          fromBlock: "earliest",
+          fromBlock,
+          toBlock: latestBlock,
         });
 
         const donations: ActivityItem[] = donationLogs
@@ -46,7 +59,7 @@ export default function CampaignActivity() {
           }));
 
         // Redemptions = payouts via Treasury
-        const redemptionLogs = await publicClient.getLogs({
+        const redemptionLogs = await client.getLogs({
           address: CONTRACTS.CampaignTreasuryV2,
           event: {
             type: "event",
@@ -56,7 +69,8 @@ export default function CampaignActivity() {
               { indexed: false, name: "amount", type: "uint256" },
             ],
           },
-          fromBlock: "earliest",
+          fromBlock,
+          toBlock: latestBlock,
         });
 
         const redemptions: ActivityItem[] = redemptionLogs.map((l) => ({
@@ -101,7 +115,15 @@ export default function CampaignActivity() {
             {a.type === "REDEMPTION" && "Funds redeemed"}
           </div>
 
-          <div className="font-medium">{a.amount} rUSD</div>
+          <div
+            className={`font-medium ${
+              a.type === "DONATION"
+                ? "text-emerald-600"
+                : "text-sky-600"
+            }`}
+          >
+            {a.amount} rUSD
+          </div>
         </div>
       ))}
     </div>

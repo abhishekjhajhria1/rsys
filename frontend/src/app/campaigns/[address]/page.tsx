@@ -1,6 +1,7 @@
 "use client";
 
 import { useReadContract } from "wagmi";
+import { isAddress } from "viem";
 import { CampaignABI } from "@/lib/web3/abis";
 import CampaignActivity from "@/components/CampaignActivity";
 import DonateBox from "@/components/DonateBox";
@@ -14,23 +15,38 @@ type PageProps = {
 export default function CampaignDetailPage({ params }: PageProps) {
   const { address } = params;
 
+  const isValidAddress = isAddress(address);
+
   const nameRead = useReadContract({
-    address: address as `0x${string}`,
+    address: isValidAddress ? (address as `0x${string}`) : undefined,
     abi: CampaignABI,
     functionName: "name",
+    query: { enabled: isValidAddress },
   });
 
   const metadataRead = useReadContract({
-    address: address as `0x${string}`,
+    address: isValidAddress ? (address as `0x${string}`) : undefined,
     abi: CampaignABI,
     functionName: "metadataURI",
+    query: { enabled: isValidAddress },
   });
 
   const initiatorRead = useReadContract({
-    address: address as `0x${string}`,
+    address: isValidAddress ? (address as `0x${string}`) : undefined,
     abi: CampaignABI,
     functionName: "initiator",
+    query: { enabled: isValidAddress },
   });
+
+  if (!isValidAddress) {
+    return (
+      <main className="max-w-3xl mx-auto px-6 py-24">
+        <p className="text-slate-600">
+          Invalid campaign address.
+        </p>
+      </main>
+    );
+  }
 
   return (
     <main className="max-w-6xl mx-auto px-6 py-16 space-y-16">
@@ -53,6 +69,7 @@ export default function CampaignDetailPage({ params }: PageProps) {
           label="Campaign Address"
           value={address}
           mono
+          link={`https://sepolia.etherscan.io/address/${address}`}
         />
         <InfoCard
           label="Initiator"
@@ -62,6 +79,11 @@ export default function CampaignDetailPage({ params }: PageProps) {
               : (initiatorRead.data as string)
           }
           mono
+          link={
+            initiatorRead.data
+              ? `https://sepolia.etherscan.io/address/${initiatorRead.data}`
+              : undefined
+          }
         />
         <InfoCard
           label="Metadata URI"
@@ -70,7 +92,11 @@ export default function CampaignDetailPage({ params }: PageProps) {
               ? "Loading…"
               : (metadataRead.data as string)
           }
-          mono
+          link={
+            metadataRead.data
+              ? (metadataRead.data as string)
+              : undefined
+          }
         />
       </section>
 
@@ -81,26 +107,10 @@ export default function CampaignDetailPage({ params }: PageProps) {
         </h2>
 
         <div className="grid md:grid-cols-4 gap-6">
-          <Step
-            step="01"
-            title="Approved"
-            text="The campaign was approved through on-chain governance before creation."
-          />
-          <Step
-            step="02"
-            title="Created"
-            text="A Campaign contract was deployed via the Campaign Factory."
-          />
-          <Step
-            step="03"
-            title="Funded"
-            text="Donations flow into a transparent relief pool on-chain."
-          />
-          <Step
-            step="04"
-            title="Enforced"
-            text="Funds can only be redeemed according to smart contract rules."
-          />
+          <Step step="01" title="Approved" text="The campaign was approved through on-chain governance before creation." />
+          <Step step="02" title="Created" text="A Campaign contract was deployed via the Campaign Factory." />
+          <Step step="03" title="Funded" text="Donations flow into a transparent relief pool on-chain." />
+          <Step step="04" title="Enforced" text="Funds can only be redeemed according to smart contract rules." />
         </div>
       </section>
 
@@ -117,8 +127,7 @@ export default function CampaignDetailPage({ params }: PageProps) {
             </h3>
             <p className="text-slate-600 text-sm">
               Donations are sent to a global relief pool and are fully
-              traceable on-chain. Funds cannot be misused or withdrawn
-              arbitrarily.
+              traceable on-chain.
             </p>
             <DonateBox />
           </div>
@@ -127,48 +136,54 @@ export default function CampaignDetailPage({ params }: PageProps) {
             <h3 className="text-lg font-semibold">
               Observe Campaign Activity
             </h3>
-            <p className="text-slate-600 text-sm">
-              All donations and redemptions are recorded on-chain. This activity
-              feed shows real transactions executed by the system.
-            </p>
-
             <div className="rounded-2xl bg-white/70 backdrop-blur-md border border-white/40 p-6">
               <CampaignActivity />
             </div>
           </div>
         </div>
       </section>
-
-      {/* FOOTNOTE */}
-      <p className="text-xs text-slate-500 max-w-3xl">
-        RSYS campaigns do not custody funds directly. All monetary flows are
-        enforced by smart contracts and remain publicly auditable at all times.
-      </p>
     </main>
   );
 }
 
-/* ---------- Helper Components ---------- */
+/* ---------- Helpers ---------- */
 
 function InfoCard({
   label,
   value,
   mono,
+  link,
 }: {
   label: string;
   value: string;
   mono?: boolean;
+  link?: string;
 }) {
+  const content = (
+    <div
+      className={`text-sm break-all ${
+        mono ? "font-mono" : ""
+      }`}
+    >
+      {value}
+    </div>
+  );
+
   return (
     <div className="rounded-2xl bg-white/70 backdrop-blur-md border border-white/40 p-6 space-y-2">
       <div className="text-sm text-slate-500">{label}</div>
-      <div
-        className={`text-sm break-all ${
-          mono ? "font-mono" : ""
-        }`}
-      >
-        {value}
-      </div>
+      {link ? (
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sky-600 hover:underline"
+        >
+          {content}
+        </a>
+      ) : (
+        content
+      )}
     </div>
   );
 }

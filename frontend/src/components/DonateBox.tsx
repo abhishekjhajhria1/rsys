@@ -4,35 +4,42 @@ import { useState } from "react";
 import { parseEther } from "viem";
 import { useAccount, useChainId, useWriteContract } from "wagmi";
 import { sepolia } from "wagmi/chains";
+import { toast } from "sonner";
 
 import { CONTRACTS } from "@/lib/web3/contracts";
 import { ERC20ABI, ReliefPoolDonateABI } from "@/lib/web3/abis";
 
 export default function DonateBox() {
-  const { address } = useAccount();
+  const { address, isConnected } = useAccount();
   const chainId = useChainId();
   const { writeContractAsync, isPending } = useWriteContract();
 
   const [amount, setAmount] = useState("");
+  const [step, setStep] = useState<
+    "IDLE" | "APPROVING" | "DONATING"
+  >("IDLE");
 
   async function donate() {
-    if (!address) {
-      alert("Connect wallet");
+    if (!isConnected || !address) {
+      toast.error("Please connect your wallet");
       return;
     }
 
     if (chainId !== sepolia.id) {
-      alert("Switch to Sepolia");
+      toast.error("Please switch to Sepolia network");
       return;
     }
 
     if (!amount || Number(amount) <= 0) {
-      alert("Enter valid amount");
+      toast.error("Enter a valid donation amount");
       return;
     }
 
     try {
       const value = parseEther(amount);
+
+      setStep("APPROVING");
+      toast.loading("Approving rUSD…", { id: "donate" });
 
       // 1️⃣ Approve rUSD
       await writeContractAsync({
@@ -42,6 +49,9 @@ export default function DonateBox() {
         args: [CONTRACTS.ReliefPool, value],
       });
 
+      setStep("DONATING");
+      toast.loading("Sending donation…", { id: "donate" });
+
       // 2️⃣ Donate to ReliefPool
       await writeContractAsync({
         address: CONTRACTS.ReliefPool,
@@ -50,17 +60,24 @@ export default function DonateBox() {
         args: [value],
       });
 
-      alert("Donation successful");
+      toast.success("Donation successful", { id: "donate" });
       setAmount("");
     } catch (err) {
       console.error(err);
-      alert("Donation failed or rejected");
+      toast.error("Transaction failed or rejected", { id: "donate" });
+    } finally {
+      setStep("IDLE");
     }
   }
 
+  const disabled =
+    isPending || step !== "IDLE";
+
   return (
     <div className="rounded-2xl bg-white/70 backdrop-blur-md border border-white/40 p-6 space-y-4 max-w-xl">
-      <h3 className="font-semibold text-lg">Donate to Relief Pool</h3>
+      <h3 className="font-semibold text-lg">
+        Donate to Relief Pool
+      </h3>
 
       <input
         value={amount}
@@ -71,14 +88,17 @@ export default function DonateBox() {
 
       <button
         onClick={donate}
-        disabled={isPending}
-        className="w-full px-4 py-3 rounded-xl bg-sky-600 text-white font-medium disabled:opacity-50"
+        disabled={disabled}
+        className="w-full px-4 py-3 rounded-xl bg-sky-600 text-white font-medium disabled:opacity-50 transition"
       >
-        {isPending ? "Processing…" : "Donate"}
+        {step === "APPROVING" && "Approving…"}
+        {step === "DONATING" && "Donating…"}
+        {step === "IDLE" && "Donate"}
       </button>
 
       <p className="text-xs text-slate-500">
-        Donation uses real on-chain transactions on Sepolia.
+        Donation requires two on-chain transactions:
+        approval followed by transfer.
       </p>
     </div>
   );
