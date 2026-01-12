@@ -1,128 +1,156 @@
+import Link from "next/link";
+
 export default function HomePage() {
   return (
-    <main className="max-w-7xl mx-auto px-6 py-20 space-y-28">
+    <main className="max-w-7xl mx-auto px-6 py-20 space-y-32">
       {/* HERO */}
-      <section className="space-y-6 max-w-3xl">
+      <section className="space-y-6 max-w-4xl">
         <h1 className="text-5xl font-semibold tracking-tight leading-tight">
-          Transparent Disaster Relief,
+          RSYS — A Transparent Disaster
           <br />
-          Enforced by Blockchain
+          Relief System Built on Blockchain
         </h1>
 
         <p className="text-lg text-slate-600">
-          RSYS is a blockchain-based disaster relief system that ensures
-          donations reach the right people, are spent correctly, and remain
-          fully auditable by anyone.
+          RSYS is a decentralized system designed to ensure that disaster relief
+          funds are delivered transparently, spent correctly, and remain fully
+          auditable by donors, administrators, and the public.
         </p>
 
-        <div className="flex gap-4">
-          <a
+        <div className="flex gap-4 pt-2">
+          <Link
             href="/campaigns"
             className="px-6 py-3 rounded-xl bg-sky-600 text-white font-medium hover:bg-sky-700 transition"
           >
-            View Campaigns
-          </a>
+            Explore Campaigns
+          </Link>
 
-          <a
+          <Link
             href="/judge"
             className="px-6 py-3 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 transition"
           >
             Judge Mode
-          </a>
+          </Link>
         </div>
       </section>
 
       {/* PROBLEM */}
-      <section className="grid md:grid-cols-3 gap-8">
-        <ProblemCard
-          title="Lack of Transparency"
-          text="Donors have no visibility into where their money goes or how it is used."
-        />
-        <ProblemCard
-          title="Corruption & Misuse"
-          text="Funds are often misallocated or siphoned off due to weak enforcement."
-        />
-        <ProblemCard
-          title="Delayed Aid"
-          text="Manual verification and intermediaries slow down critical relief."
-        />
+      <section className="space-y-10">
+        <h2 className="text-3xl font-semibold">
+          Why Disaster Relief Systems Fail
+        </h2>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          <ProblemCard
+            title="No Transparency"
+            text="Donors cannot track where their funds go or how they are used after donation."
+          />
+          <ProblemCard
+            title="Corruption & Misuse"
+            text="Funds are often misallocated due to weak enforcement and centralized control."
+          />
+          <ProblemCard
+            title="Slow & Inefficient Delivery"
+            text="Manual verification and intermediaries delay urgent relief efforts."
+          />
+        </div>
       </section>
 
       {/* SOLUTION */}
-      <section className="space-y-10">
-        <h2 className="text-3xl font-semibold">
-          How RSYS Solves This
-        </h2>
+      <section className="space-y-12">
+        <h2 className="text-3xl font-semibold">How RSYS Solves This</h2>
 
-        <div className="grid md:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-4 gap-8">
           <Step
             step="01"
-            title="Campaign Approval"
-            text="Campaigns are approved on-chain before they can be created."
+            title="Campaign Governance"
+            text="Relief campaigns must be approved on-chain before they can be created."
           />
           <Step
             step="02"
             title="Transparent Donations"
-            text="All donations go through a public, auditable relief pool."
+            text="All donations flow into a public relief pool visible on the blockchain."
           />
           <Step
             step="03"
-            title="Role-Based Verification"
+            title="Role Verification"
             text="Admins, volunteers, victims, and providers are verified using NFTs."
           />
           <Step
             step="04"
             title="Enforced Spending"
-            text="Funds can only be redeemed according to smart contract rules."
+            text="Funds can only be redeemed through smart contract rules — no exceptions."
           />
         </div>
       </section>
 
-      {/* USP */}
-      <section className="rounded-3xl bg-white/70 backdrop-blur-md border border-white/40 p-10 space-y-6">
-        <h2 className="text-3xl font-semibold">
-          Why RSYS Is Different
-        </h2>
+      {/* ROLE ENTRY */}
+      <section className="space-y-12">
+        <h2 className="text-3xl font-semibold">Who Is RSYS For?</h2>
+
+        <div className="grid md:grid-cols-4 gap-6">
+          <RoleCard
+            title="Donors"
+            text="Donate with confidence and audit fund usage in real time."
+            href="/campaigns"
+          />
+          <RoleCard
+            title="Administrators"
+            text="Approve campaigns and manage verified roles securely."
+            href="/admin"
+          />
+          <RoleCard
+            title="Volunteers"
+            text="Verify victims on the ground using trusted on-chain identity."
+            href="/volunteer"
+          />
+          <RoleCard
+            title="Service Providers"
+            text="Redeem funds only after delivering verified aid."
+            href="/provider"
+          />
+        </div>
+      </section>
+
+      {/* DIFFERENTIATORS */}
+      <section className="rounded-3xl bg-white/70 backdrop-blur-md border border-white/40 p-12 space-y-6">
+        <h2 className="text-3xl font-semibold">What Makes RSYS Different</h2>
 
         <ul className="grid md:grid-cols-2 gap-4 text-slate-600">
-          <li>• No centralized control over funds</li>
-          <li>• Real-time on-chain auditability</li>
-          <li>• Automatic enforcement of spending rules</li>
-          <li>• Identity verification without revealing personal data</li>
-          <li>• Works without trusting any single authority</li>
+          <li>• No centralized custody of funds</li>
+          <li>• Full on-chain auditability</li>
+          <li>• Automatic enforcement via smart contracts</li>
+          <li>• Role-based identity without exposing personal data</li>
+          <li>• Designed for real-world disaster scenarios</li>
         </ul>
       </section>
 
-      {/* CTA */}
+      {/* FOOTER CTA */}
       <section className="text-center space-y-4">
         <h2 className="text-3xl font-semibold">
-          Built for Real-World Impact
+          Built for Accountability, Not Trust
         </h2>
+
         <p className="text-slate-600 max-w-2xl mx-auto">
-          RSYS demonstrates how blockchain can be used beyond speculation —
-          to create transparent, accountable systems for humanitarian aid.
+          RSYS demonstrates how blockchain can be used to create transparent,
+          enforceable systems for humanitarian aid — without relying on blind
+          trust in institutions.
         </p>
 
-        <a
+        <Link
           href="/campaigns"
           className="inline-block mt-4 px-8 py-4 rounded-xl bg-sky-600 text-white font-medium hover:bg-sky-700 transition"
         >
-          Explore the System
-        </a>
+          View Live Campaigns
+        </Link>
       </section>
     </main>
   );
 }
 
-/* --- Small helper components --- */
+/* ---------- Helper Components ---------- */
 
-function ProblemCard({
-  title,
-  text,
-}: {
-  title: string;
-  text: string;
-}) {
+function ProblemCard({ title, text }: { title: string; text: string }) {
   return (
     <div className="rounded-2xl bg-white/70 backdrop-blur-md border border-white/40 p-6 space-y-2">
       <h3 className="font-semibold text-lg">{title}</h3>
@@ -146,5 +174,27 @@ function Step({
       <h3 className="font-semibold">{title}</h3>
       <p className="text-slate-600 text-sm">{text}</p>
     </div>
+  );
+}
+
+function RoleCard({
+  title,
+  text,
+  href,
+}: {
+  title: string;
+  text: string;
+  href: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="rounded-2xl bg-white/70 backdrop-blur-md border border-white/40 p-6 space-y-3 hover:border-slate-300 transition block"
+    >
+
+      <h3 className="font-semibold text-lg">{title}</h3>
+      <p className="text-slate-600 text-sm">{text}</p>
+      <span className="text-sm text-sky-600 font-medium">Go →</span>
+    </Link>
   );
 }
