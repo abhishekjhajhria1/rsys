@@ -12,10 +12,7 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 backdrop-blur-md bg-white/70 border-b border-white/40">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link
-          href="/"
-          className="text-lg font-semibold tracking-tight"
-        >
+        <Link href="/" className="text-lg font-semibold tracking-tight">
           RSYS
         </Link>
 
@@ -40,6 +37,10 @@ export default function Navbar() {
                   className="absolute right-0 mt-3 w-56 rounded-2xl bg-white/80 backdrop-blur-xl border border-white/40 shadow-xl overflow-hidden"
                 >
                   <DropdownItem href="/campaigns" label="Campaigns" />
+                  <DropdownItem
+                    href="/admin/create"
+                    label="Create Campaign (Admin)"
+                  />
                   <DropdownItem href="/admin" label="Admin Portal" />
                   <DropdownItem href="/volunteer" label="Volunteer Portal" />
                   <DropdownItem href="/provider" label="Service Provider" />
@@ -56,13 +57,7 @@ export default function Navbar() {
   );
 }
 
-function DropdownItem({
-  href,
-  label,
-}: {
-  href: string;
-  label: string;
-}) {
+function DropdownItem({ href, label }: { href: string; label: string }) {
   return (
     <Link
       href={href}

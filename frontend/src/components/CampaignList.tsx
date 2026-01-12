@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import { usePublicClient } from "wagmi";
 import { CONTRACTS } from "@/lib/web3/contracts";
-import Link from "next/link";
-
 
 type CampaignItem = {
   campaign: string;
@@ -13,16 +11,16 @@ type CampaignItem = {
 };
 
 export default function CampaignList() {
-  const client = usePublicClient();
+  const publicClient = usePublicClient();
   const [items, setItems] = useState<CampaignItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!client) return;
+    if (!publicClient) return;
 
     async function load() {
       try {
-        const logs = await client!.getLogs({
+        const logs = await publicClient!.getLogs({
           address: CONTRACTS.CampaignFactory,
           event: {
             type: "event",
@@ -33,7 +31,7 @@ export default function CampaignList() {
               { indexed: false, name: "name", type: "string" },
             ],
           },
-          fromBlock: BigInt(0),
+          fromBlock: "latest",
         });
 
         const parsed = logs.map((l) => ({
@@ -43,8 +41,8 @@ export default function CampaignList() {
         }));
 
         setItems(parsed.reverse());
-      } catch (e) {
-        console.error(e);
+      } catch (err) {
+        console.error(err);
         setItems([]);
       } finally {
         setLoading(false);
@@ -52,7 +50,7 @@ export default function CampaignList() {
     }
 
     load();
-  }, [client]);
+  }, [publicClient]);
 
   if (loading) {
     return <p className="text-slate-600 text-sm">Loading campaigns…</p>;
@@ -65,10 +63,9 @@ export default function CampaignList() {
   return (
     <div className="space-y-3">
       {items.map((c) => (
-        <Link
+        <div
           key={c.campaign}
-          href={`/campaigns/${c.campaign}`}
-          className="block rounded-xl border border-slate-200 bg-white/70 p-4 hover:border-slate-300 transition"
+          className="rounded-xl border border-slate-200 bg-white/70 p-4"
         >
           <div className="font-medium">{c.name}</div>
           <div className="text-xs text-slate-500 mt-1">
@@ -77,7 +74,7 @@ export default function CampaignList() {
           <div className="text-xs text-slate-500">
             Initiator: {c.initiator.slice(0, 6)}…{c.initiator.slice(-4)}
           </div>
-        </Link>
+        </div>
       ))}
     </div>
   );
