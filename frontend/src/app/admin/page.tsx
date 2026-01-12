@@ -1,114 +1,126 @@
-"use client";
-
-import { useState } from "react";
-import { useAccount, useChainId, useWriteContract } from "wagmi";
-import { sepolia } from "wagmi/chains";
-import { CONTRACTS } from "@/lib/web3/contracts";
-import { ERC721ABI } from "@/lib/web3/abis";
-import { ServiceProviderNFTABI } from "@/lib/web3/abis";
+import Link from "next/link";
 
 export default function AdminPage() {
-  const [provider, setProvider] = useState("");
-
-  const { address } = useAccount();
-  const chainId = useChainId();
-  const { writeContractAsync, isPending } = useWriteContract();
-
-  const [volunteer, setVolunteer] = useState("");
-
-  async function issueVolunteer() {
-    if (!address) return alert("Connect wallet");
-    if (chainId !== sepolia.id) return alert("Switch to Sepolia");
-    if (!volunteer) return alert("Enter volunteer address");
-
-    try {
-      const volunteerAddress = volunteer.startsWith("0x")
-        ? volunteer
-        : `0x${volunteer}`;
-      await writeContractAsync({
-        address: CONTRACTS.VolunteerNFT,
-        abi: ERC721ABI,
-        functionName: "issueVolunteer",
-        args: [volunteerAddress as `0x${string}`],
-      });
-
-      alert("Volunteer NFT issued");
-      setVolunteer("");
-    } catch (err) {
-      console.error(err);
-      alert("Transaction failed");
-    }
-  }
-
-  async function registerProvider() {
-    if (!address) return alert("Connect wallet");
-    if (chainId !== sepolia.id) return alert("Switch to Sepolia");
-    if (!provider) return alert("Enter provider address");
-
-    try {
-      const providerAddress = provider.startsWith("0x")
-        ? provider
-        : `0x${provider}`;
-      await writeContractAsync({
-        address: CONTRACTS.ServiceProviderNFT,
-        abi: ServiceProviderNFTABI,
-        functionName: "registerProvider",
-        args: [providerAddress as `0x${string}`],
-      });
-
-      alert("Service Provider registered on-chain");
-      setProvider("");
-    } catch (err) {
-      console.error(err);
-      alert("Transaction failed or reverted");
-    }
-  }
-
   return (
-    <main className="max-w-5xl mx-auto px-6 py-16 space-y-12">
-      <h1 className="text-4xl font-semibold">Campaign Admin</h1>
+    <main className="max-w-6xl mx-auto px-6 py-16 space-y-16">
+      {/* PAGE INTRO */}
+      <section className="space-y-4 max-w-3xl">
+        <h1 className="text-4xl font-semibold tracking-tight">
+          Admin Portal
+        </h1>
 
-      <div className="rounded-2xl bg-white/70 backdrop-blur-md border border-white/40 p-6 space-y-4 max-w-xl">
-        <h2 className="text-xl font-semibold">Issue Volunteer NFT</h2>
-
-        <input
-          value={volunteer}
-          onChange={(e) => setVolunteer(e.target.value)}
-          placeholder="Volunteer wallet address"
-          className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white"
-        />
-
-        <button
-          onClick={issueVolunteer}
-          disabled={isPending}
-          className="w-full px-4 py-3 rounded-xl bg-sky-600 text-white font-medium disabled:opacity-50"
-        >
-          {isPending ? "Issuing…" : "Issue Volunteer NFT"}
-        </button>
-      </div>
-
-      <div className="rounded-2xl bg-white/70 backdrop-blur-md border border-white/40 p-6 space-y-4 max-w-xl">
-        <h2 className="text-xl font-semibold">Register Service Provider</h2>
-
-        <input
-          value={provider}
-          onChange={(e) => setProvider(e.target.value)}
-          placeholder="Service Provider wallet address"
-          className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white"
-        />
-
-        <button
-          onClick={registerProvider}
-          disabled={isPending}
-          className="w-full px-4 py-3 rounded-xl bg-sky-600 text-white font-medium disabled:opacity-50"
-        >
-          {isPending ? "Registering…" : "Register Provider"}
-        </button>
-
-        <p className="text-xs text-slate-500">
-          Issues a Service Provider NFT, enabling controlled fund redemption.
+        <p className="text-slate-600">
+          Administrators in RSYS are responsible for governance and role
+          verification. All admin actions are enforced directly by smart
+          contracts and cannot be bypassed through the UI.
         </p>
-      </div>
+      </section>
+
+      {/* WHAT ADMINS DO */}
+      <section className="space-y-8">
+        <h2 className="text-2xl font-semibold">
+          What Admins Are Responsible For
+        </h2>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          <AdminCapability
+            title="Campaign Governance"
+            text="Approve campaigns before they are allowed to be created on-chain."
+          />
+          <AdminCapability
+            title="Volunteer Verification"
+            text="Issue Volunteer NFTs to trusted individuals working on the ground."
+          />
+          <AdminCapability
+            title="Service Provider Authorization"
+            text="Register service providers who are allowed to redeem funds."
+          />
+        </div>
+      </section>
+
+      {/* ON-CHAIN ENFORCEMENT */}
+      <section className="rounded-3xl bg-white/70 backdrop-blur-md border border-white/40 p-10 space-y-4">
+        <h2 className="text-xl font-semibold">
+          On-Chain Enforcement
+        </h2>
+
+        <p className="text-slate-600 text-sm">
+          Admin permissions in RSYS are not UI-based roles. Every action performed
+          by an admin is validated by deployed smart contracts. If an address is
+          not authorized on-chain, the transaction will fail.
+        </p>
+      </section>
+
+      {/* ACTION ENTRY POINTS */}
+      <section className="space-y-8">
+        <h2 className="text-2xl font-semibold">
+          Admin Actions
+        </h2>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          <ActionCard
+            title="Approve Campaigns"
+            text="Approve campaigns through on-chain governance before creation."
+            href="/admin"
+          />
+          <ActionCard
+            title="Issue Volunteer NFT"
+            text="Verify volunteers who can identify and validate victims."
+            href="/volunteer"
+          />
+          <ActionCard
+            title="Register Service Provider"
+            text="Authorize providers who can redeem relief funds."
+            href="/provider"
+          />
+        </div>
+      </section>
+
+      {/* FOOTNOTE */}
+      <p className="text-xs text-slate-500 max-w-3xl">
+        The Admin Portal provides entry points into governance and verification
+        workflows. Actual permissions are enforced strictly by smart contracts.
+      </p>
     </main>
+  );
+}
+
+/* ---------- Helpers ---------- */
+
+function AdminCapability({
+  title,
+  text,
+}: {
+  title: string;
+  text: string;
+}) {
+  return (
+    <div className="rounded-2xl bg-white/70 backdrop-blur-md border border-white/40 p-6 space-y-2">
+      <h3 className="font-semibold">{title}</h3>
+      <p className="text-sm text-slate-600">{text}</p>
+    </div>
+  );
+}
+
+function ActionCard({
+  title,
+  text,
+  href,
+}: {
+  title: string;
+  text: string;
+  href: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="block rounded-2xl bg-white/70 backdrop-blur-md border border-white/40 p-6 space-y-3 hover:border-slate-300 transition"
+    >
+      <h3 className="font-semibold">{title}</h3>
+      <p className="text-sm text-slate-600">{text}</p>
+      <span className="text-sm text-sky-600 font-medium">
+        Go →
+      </span>
+    </Link>
   );
 }
