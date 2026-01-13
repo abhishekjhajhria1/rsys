@@ -1,69 +1,82 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import ConnectWalletButton from "./ConnectWalletButton";
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
     <nav className="sticky top-0 z-50 backdrop-blur-md bg-white/70 border-b border-white/40">
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="text-lg font-semibold tracking-tight">
+        <Link href="/" className="font-semibold text-lg">
           RSYS
         </Link>
 
-        {/* Right Side */}
+        {/* Navigation */}
         <div className="flex items-center gap-6">
-          {/* Dropdown */}
+          <Link href="/campaigns" className="text-sm text-slate-700">
+            Campaigns
+          </Link>
+
+          <Link href="/judge" className="text-sm text-slate-700">
+            Judge Mode
+          </Link>
+
+          {/* Role Dropdown */}
           <div className="relative">
             <button
-              onClick={() => setOpen((v) => !v)}
-              className="text-sm font-medium text-slate-700 hover:text-slate-900 transition"
+              onClick={() => setOpen(!open)}
+              className="flex items-center gap-1 text-sm text-slate-700"
             >
-              Explore
+              Roles
+              <ChevronDown size={16} />
             </button>
 
-            <AnimatePresence>
-              {open && (
-                <motion.div
-                  initial={{ opacity: 0, y: -8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="absolute right-0 mt-3 w-56 rounded-2xl bg-white/80 backdrop-blur-xl border border-white/40 shadow-xl overflow-hidden"
-                >
-                  <DropdownItem href="/campaigns" label="Campaigns" />
-                  <DropdownItem
-                    href="/admin/create"
-                    label="Create Campaign (Admin)"
-                  />
-                  <DropdownItem href="/admin" label="Admin Portal" />
-                  <DropdownItem href="/volunteer" label="Volunteer Portal" />
-                  <DropdownItem href="/provider" label="Service Provider" />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {open && (
+              <div className="absolute right-0 mt-2 w-56 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200 shadow-sm overflow-hidden">
+                <RoleLink
+                  href="/admin"
+                  title="Admin"
+                  desc="Governance & fund control"
+                />
+                <RoleLink
+                  href="/volunteer"
+                  title="Volunteer"
+                  desc="Verify victims"
+                />
+                <RoleLink
+                  href="/provider"
+                  title="Service Provider"
+                  desc="Redeem funds"
+                />
+              </div>
+            )}
           </div>
-
-          {/* Wallet */}
-          <ConnectWalletButton />
         </div>
       </div>
     </nav>
   );
 }
 
-function DropdownItem({ href, label }: { href: string; label: string }) {
+function RoleLink({
+  href,
+  title,
+  desc,
+}: {
+  href: string;
+  title: string;
+  desc: string;
+}) {
   return (
     <Link
       href={href}
-      className="block px-5 py-3 text-sm text-slate-700 hover:bg-slate-100/60 transition"
+      className="block px-4 py-3 hover:bg-slate-50 transition"
     >
-      {label}
+      <div className="text-sm font-medium">{title}</div>
+      <div className="text-xs text-slate-500">{desc}</div>
     </Link>
   );
 }
