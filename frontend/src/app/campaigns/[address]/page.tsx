@@ -1,5 +1,3 @@
-"use client";
-
 import { useReadContract } from "wagmi";
 import { isAddress } from "viem";
 import { CampaignABI } from "@/lib/web3/abis";
@@ -11,6 +9,9 @@ type PageProps = {
     address: string;
   };
 };
+
+
+
 
 export default function CampaignDetailPage({ params }: PageProps) {
   const { address } = params;

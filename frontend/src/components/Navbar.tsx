@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import ConnectWalletButton from "./ConnectWalletButton";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -56,6 +57,8 @@ export default function Navbar() {
             )}
           </div>
         </div>
+              <ConnectWalletButton />
+
       </div>
     </nav>
   );
