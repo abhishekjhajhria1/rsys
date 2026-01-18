@@ -1,5 +1,5 @@
 const nextConfig = {
-  basePath: '/dynamic',
+  basePath: '',
   images: {
     unoptimized: true,
   },

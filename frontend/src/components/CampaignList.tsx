@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePublicClient } from "wagmi";
-// import Link from "next/link";
+import Link from "next/link";
 import { CONTRACTS } from "@/lib/web3/contracts";
 
 type CampaignItem = {
@@ -78,7 +78,7 @@ export default function CampaignList() {
   return (
     <div className="space-y-3">
       {items.map((c) => (
-        <a
+        <Link
           key={c.campaign}
           href={`/campaigns/${c.campaign}`}
           className="block rounded-xl border border-slate-200 bg-white/70 p-4 hover:border-slate-300 hover:shadow-sm transition"
@@ -92,7 +92,7 @@ export default function CampaignList() {
           <div className="text-xs text-slate-500">
             Initiator: {c.initiator.slice(0, 6)}…{c.initiator.slice(-4)}
           </div>
-        </a>
+        </Link>
       ))}
     </div>
   );
