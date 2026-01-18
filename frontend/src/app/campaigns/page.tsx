@@ -18,6 +18,7 @@ export default function CampaignsPage() {
         </p>
       </header>
 
+
       {/* HOW CAMPAIGNS WORK */}
       <section className="grid md:grid-cols-3 gap-6">
         <InfoCard
